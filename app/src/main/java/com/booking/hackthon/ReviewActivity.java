@@ -1,6 +1,7 @@
 package com.booking.hackthon;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -17,13 +18,14 @@ import static com.booking.hackthon.Utils.EMOJIS;
 
 public class ReviewActivity extends Activity {
 
-
+    Context mContext;
     LinearLayout ll_tag, ll_emojis;
     TextView tv_emoji, tv_done;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
         setContentView(R.layout.review_page);
         ll_tag = (LinearLayout) findViewById(R.id.ll_tag);
         ll_emojis = (LinearLayout) findViewById(R.id.ll_emojis);
@@ -57,6 +59,7 @@ public class ReviewActivity extends Activity {
         tv_done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(mContext, "Review send!", Toast.LENGTH_LONG).show();
                 finish();
             }
         });
