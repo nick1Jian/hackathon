@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--<group android:checkableBehavior="single">-->
+        <!--<item-->
+            <!--android:id="@+id/nav_camera"-->
+            <!--android:icon="@drawable/ic_menu_camera"-->
+            <!--android:title="Import" />-->
+
+    <!--</group>-->
+
+    <item
+        android:id="@+id/nav_section_poll"
+        android:checkableBehavior="single"
+        android:title="Current polls">
+        <menu>
+            <item
+                android:id="@+id/nav_poll_1"
+                android:icon="@drawable/suitcase"
+                android:title="Trip to Taipei" />
+
+            <item
+                android:id="@+id/nav_poll_2"
+                android:icon="@drawable/suitcase"
+                android:title="Trip to Nederland" />
+        </menu>
+    </item>
+
+
+
+    <item
+        android:id="@+id/nav_add"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="Create New" />
+
+
+
+</menu>
