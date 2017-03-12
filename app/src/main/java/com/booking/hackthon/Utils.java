@@ -2,9 +2,13 @@ package com.booking.hackthon;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
@@ -50,7 +54,7 @@ public class Utils {
             , "He lives in the city center in a nicely decorated apartment (he is found of arts and crats). "};
     private static final String[] PROFILES = {"Hey Hey, I'm so excited to visit Italy and make series of photographs about cities, places and maybe you. If you can accommodate me it will be so nice, nice nice. \nWe can share and maybe make me visit your favorite spots? \nSee ya", "Hola hola, \nI would love to surf in ur couch and discover your favorite spots. Tell me about your life and your travels, I would love to share stories with you. \nTell the great Roma that am coming with my backpack and my camera, tell the citie that I heard about it many times and Am coming now with my backpack and my camera... To get lost in it, to meet you and to have some great memories.", "Hey, Hola \nAm doing a Trip with my Backpack and my camera, I wanna get lost and discover Italy, meet you and have some great memories. Let me know If you have some couch I can surf on and I will share with you many stories. \nSee ya", "Hey Hey, I'm so excited to visit Italy and make photo series about cities, places and maybe you. If you can accommodate me it will be so nice, nice nice. \nWe can share and maybe make me visit your favorite spots? \nAm flying to Athene just after \nSee ya", "Heey Ya, For one day i will visit Athens, the city of gods. \n(I wrote an epic sentence but When I reread it, it sounded so creepy #StopCliché) \nIt will be nice if i can meet some cool locals so they can talk me about the culture and show me some spots. \nEfharistó polí", "Merhaba, from France to Greece via Italy, my final destination for this trip is Istanbul. I dreamed about for years and Finally Am coming. I would love to meet some locals to show me some cozy spots and to share moments and discussions. Let me know if u can let me surf on ur couch. \nTeşekkür", "\nI will be travelling solo for a few weeks and I will stay in Charleroi for a 24h stopover on my way from Morocco to Montenegro. Looking forward to meet locals there and hang out! If your couch is available during that time please contact me.\nHoping to hear from you soon,", "I will be travelling solo for a couple of weeks through the Balkans and I'm planning to stay one night in Podgorica to explore the town and its surroundings.\nI am hoping to meet locals who can share tips about Podgorica and the region. If your couch is available during that time please contact me.\nHoping to hear from you soon,", "I was rased and I believed that I needed things to be happy. I get a house, a car, a mobile phone, a boyfriend, a girlfriend, a cat, a washing machine... and I get rid of all of this. Now my life is contained in few cardboard boxes, a bike and a rice cooker.", "I constantly meet precious human being who I concider as brother and taking care of each other take most of my time and energy (such as mine students).", "I do regret that I can find less and less travelers here and more teens who care just about having a cheap week-end and good tips. If you don't concider like one of those sign your request with \"eat the road\" and I will know you pay enough attention at the profil of your potential host and are a true CS."};
     private static final String[] TAG = {"nightowl", "sleptOver", "shopaholic", "backpackerMaster", "outdoors", "vegetarian", "friendly", "gourmet", "photographers", "geek", "surfing", "scubaDiving", "chef"};
-    private static final String[] EMOJIS = {"😃", "😂", "😉", "😔", "🤔", "😰", "😡", "😈", "👿", "😎"};
+    public static final String[] EMOJIS = {"😃", "😂", "😉", "😔", "🤔", "😰", "😡", "😈", "👿", "😎"};
     private static final String[] PROFILE_URL = {"http://www.american.edu/uploads/profiles/large/chris_palmer_profile_11.jpg"
             , "https://expertbeacon.com/sites/default/files/advice_for_men_on_selecting_your_online_dating_profile_photo.jpg"
             , "http://devilsworkshop.org/files/2013/01/enlarged-facebook-profile-picture.jpg"
@@ -116,7 +120,7 @@ public class Utils {
         } else if (roll < 10) {
             return new String[]{TAG[next(rand, TAG.length)], TAG[next(rand, TAG.length)]};
         } else {
-            return new String[]{TAG[next(rand, TAG.length)], TAG[next(rand, TAG.length)], TAG[next(rand, TAG.length)], (rand.nextInt(5) +1)+ "+"};
+            return new String[]{TAG[next(rand, TAG.length)], TAG[next(rand, TAG.length)], TAG[next(rand, TAG.length)], (rand.nextInt(5) + 1) + "+"};
         }
     }
 
@@ -169,6 +173,26 @@ public class Utils {
     public static String getRand(int seed, String[] array) {
         Random rand = new Random(seed);
         return array[rand.nextInt(array.length)];
+    }
+
+    public static void setTag(LinearLayout ll, int mSeed) {
+        String[] tags = Utils.getTags(mSeed);
+
+        if (tags.length != 0) {
+            Random rand = new Random();
+            for (int i = 0; i < tags.length; i++) {
+                TextView tv = new TextView(ll.getContext());
+                tv.setText(tags[i]);
+                tv.setPadding(8, 8, 8, 8);
+                tv.setTextColor(Color.WHITE);
+                tv.setBackgroundColor(Color.rgb(rand.nextInt(128), rand.nextInt(128), rand.nextInt(128)));
+
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                lp.setMargins(0, 0, 20, 0);
+                tv.setLayoutParams(lp);
+                ll.addView(tv);
+            }
+        }
     }
 
     public static class Review {

@@ -2,7 +2,6 @@ package com.booking.hackthon;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by gogolook on 2017/3/11.
@@ -120,26 +118,7 @@ public class InviteAdaptor extends RecyclerView.Adapter {
 
             LinearLayout ll = (LinearLayout) holder1.ll_tag;
             ll.removeAllViews();
-            String[] tags = Utils.getTags(pos);
-
-            if (tags.length != 0) {
-                Random rand = new Random();
-                for (int i = 0; i < tags.length; i++) {
-                    TextView tv = new TextView(mContext);
-                    tv.setText(tags[i]);
-                    tv.setTextSize(12);
-                    tv.setPadding(8, 8, 8, 8);
-                    tv.setTextColor(Color.WHITE);
-                    tv.setBackgroundColor(Color.rgb(rand.nextInt(128), rand.nextInt(128), rand.nextInt(128)));
-
-                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    lp.setMargins(0, 0, 20, 0);
-                    tv.setLayoutParams(lp);
-                    ll.addView(tv);
-                }
-            } else {
-                ll.setVisibility(View.GONE);
-            }
+            Utils.setTag(ll, pos);
 
             Utils.loadProfileImage(mContext, holder1.iv_head, Utils.getProfilePic(pos));
             holder1.tv_emoji.setText(Utils.getEmoji(pos));

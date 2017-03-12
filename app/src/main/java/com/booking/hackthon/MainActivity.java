@@ -1,10 +1,14 @@
 package com.booking.hackthon;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,14 +18,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     static final int SEED = 0;
+    private static final int NOTI_ID_REVIEW = 0;
 
-    WebView wv;
+    WebView mWebview;
     Context mContext;
+    FloatingActionButton mFab;
+    LinearLayout mLlIntro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +53,13 @@ public class MainActivity extends AppCompatActivity
         TextView tvName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tv_username);
         tvName.setText(Utils.getName(SEED));
 
+        mLlIntro = (LinearLayout) findViewById(R.id.ll_intro);
 
-        wv = (WebView) findViewById(R.id.wv_poll);
-        wv.loadUrl("https://github.com/bumptech/glide");
 
+        mWebview = (WebView) findViewById(R.id.wv_poll);
+        mWebview.getSettings().setJavaScriptEnabled(true);
+        mWebview.getSettings().setLoadsImagesAutomatically(true);
+        mWebview.setVisibility(View.GONE);
 
         navigationView.getHeaderView(0).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,14 +68,34 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+
+        mFab = (FloatingActionButton) findViewById(R.id.fab);
+        mFab.hide();
+        mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(MainActivity.this, "Fab clicked", Toast.LENGTH_LONG).show();
                 startActivity(new Intent(mContext, InviteActivity.class));
             }
         });
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                Intent intent = new Intent(mContext, ReviewActivity.class);
+                PendingIntent resultPendingIntent = PendingIntent.getActivity(mContext, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
+                        .setContentTitle("Review your friends!!")
+                        .setContentText("what do you think about Mark Rutte？")
+                        .setSmallIcon(R.drawable.ic_plus);
+                builder.setContentIntent(resultPendingIntent);
+                NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                mNotificationManager.notify(NOTI_ID_REVIEW, builder.build());
+
+            }
+        }, 1000);
+
     }
 
     @Override
@@ -105,14 +136,15 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-
-        if (wv.getVisibility() == View.GONE) {
-            wv.setVisibility(View.VISIBLE);
+        mLlIntro.setVisibility(View.GONE);
+        if (mWebview.getVisibility() == View.GONE) {
+            mWebview.setVisibility(View.VISIBLE);
         }
         if (id == R.id.nav_poll_1) { //open poll1
-
+            mFab.show();
         } else if (id == R.id.nav_add) {
-
+            mWebview.loadUrl("https://booking-com-hack-front-end.firebaseapp.com/poll/create");
+            mFab.hide();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
